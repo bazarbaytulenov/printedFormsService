@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Entity
 @Table(name = "group", schema = "template_schema")
-@Datatemplate_schema
 public class GroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
