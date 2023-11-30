@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "group", schema = "template_schema")
+@Table(name = "group")
 public class GroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
