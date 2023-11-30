@@ -1,3 +1,4 @@
+/*
 package kz.project.printedFormsService.data.entity;
 
 import jakarta.persistence.*;
@@ -15,3 +16,4 @@ public class GroupEntity {
     private Boolean isDelete;
     private Boolean isEdit;
 }
+*/
