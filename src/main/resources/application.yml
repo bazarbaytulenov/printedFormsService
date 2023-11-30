@@ -1,0 +1,48 @@
+spring:
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8080/realms/external
+#          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+#      client:
+#        registration:
+#          keycloak:
+#            client-id: external-client
+#            client-secret: JaoJ4OvrzUqinB58gKiDGEjpTBSCCxJJ
+#            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+#            authorization-grant-type: authorization_code
+#        provider:
+#          keycloak:
+#            issuer-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}
+#      resource:
+#        token-info-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token
+  jpa:
+    hibernate:
+      jdbc.time_zone: Asia/Almaty
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:template_db}?currentSchema=template_schema
+    username: ${DATASOURCE_USER:postgres}
+    password: ${DATASOURCE_PASSWORD:password}
+    hikari:
+      maximum-pool-size: ${MAXIMUM_POOL_SIZE:100}
+      minimum-idle: 2
+      leak-detection-threshold: 30000 # 30000 - 30 seconds
+      auto-commit: false
+
+server:
+  port: 8081
+
+jwt:
+  auth:
+    converter:
+      resource-id: external-client
+      principle-attribute: preferred_username
+
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
