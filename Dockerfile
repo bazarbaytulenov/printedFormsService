@@ -1,7 +1,9 @@
-FROM amazoncorretto:17.0.7-alpine
+FROM xldevops/jdk17-lts
 
-COPY build/libs/printedFormsService-app.jar /app.jar
+ARG JAR_FILE=build/libs/printedFormsService-app.jar
 
-EXPOSE 8081
+RUN mkdir /app
 
-CMD ["java", "-jar", "/app.jar"]
+COPY ${JAR_FILE} /app/spring-boot-application.jar
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar","/app/spring-boot-application.jar"]
