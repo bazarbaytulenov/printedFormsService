@@ -21,25 +21,25 @@ import java.util.List;
 @Schema(name = "TemplateDto", description = "Модель")
 public class TemplateDto {
     @NotBlank
-    @Schema(name = "Код шаблона")
+    @Schema(name ="code", description = "Код шаблона")
     private String code;
     @NotBlank
-    @Schema(name = "Наименование шаблона")
+    @Schema(name = "nameBody", description = "Наименование шаблона")
     private String nameBody;
     @NotBlank
-    @Schema(name = "Наименование заголовки")
+    @Schema(name ="nameHeader", description = "Наименование заголовки")
     private String nameHeader;
     @NotBlank
-    @Schema(name = "Тип фаила")
+    @Schema(name = "type", description = "Тип фаила")
     private String type;
     @NotBlank
-    @Schema(name = "Флаг активности")
+    @Schema(name ="isActive", description = "Флаг активности")
     private Boolean isActive;
     @NotBlank
-    @Schema(name = "Данные")
+    @Schema(name ="data", description = "Шаблон")
     private byte[] data;
     @NotBlank
-    @Schema(name = "Данные заголовка")
+    @Schema(name ="header", description = "Шаблон заголовка")
     private byte [] header;
 
 
