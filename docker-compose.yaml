@@ -21,4 +21,4 @@ services:
       - postgres
     environment:
       - SERVER_PORT= 8081
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/template_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/template_db

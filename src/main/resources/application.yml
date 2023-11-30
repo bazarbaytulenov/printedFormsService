@@ -35,14 +35,12 @@ spring:
 server:
   port: 8081
 
-jwt:
-  auth:
-    converter:
-      resource-id: external-client
-      principle-attribute: preferred_username
+#jwt:
+#  auth:
+#    converter:
+#      resource-id: external-client
+#      principle-attribute: preferred_username
 
 springdoc:
-  show-actuator: false
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
+  api-docs:
+    path: ${API_DOCS_PATH:/api-docs}
