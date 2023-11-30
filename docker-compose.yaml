@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
   client-backend:
-    image: templete-service:0.0.1
+    image: templete-service:latest
     build:
       context: ./
       dockerfile: Dockerfile
