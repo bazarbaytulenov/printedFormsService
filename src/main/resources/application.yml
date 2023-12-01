@@ -31,18 +31,21 @@ spring:
       minimum-idle: 2
       leak-detection-threshold: 30000 # 30000 - 30 seconds
       auto-commit: false
+#  flyway:
+#    enabled: ${FLYWAY_ENABLED:true}
+#    baseline-on-migrate: ${FLYWAY_BASELINE:true}
+#    out-of-order: ${FLYWAY_OUT_OF_ORDER:true}
+
 
 server:
   port: 8081
 
-jwt:
-  auth:
-    converter:
-      resource-id: external-client
-      principle-attribute: preferred_username
+#jwt:
+#  auth:
+#    converter:
+#      resource-id: external-client
+#      principle-attribute: preferred_username
 
 springdoc:
-  show-actuator: false
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
+  api-docs:
+    path: ${API_DOCS_PATH:/api-docs}

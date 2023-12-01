@@ -14,44 +14,16 @@ import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
         info = @Info(
+                title = "Template Service API",
+                description = "Loyalty System", version = "1.0.0",
                 contact = @Contact(
-                        name = "Alibou",
-                        email = "contact@aliboucoding.com",
-                        url = "https://aliboucoding.com/course"
-                ),
-                description = "OpenApi documentation for Spring Security",
-                title = "OpenApi specification - Alibou",
-                version = "1.0",
-                license = @License(
-                        name = "Licence name",
-                        url = "https://some-url.com"
-                ),
-                termsOfService = "Terms of service"
-        ),
-        servers = {
-                @Server(
-                        description = "Local ENV",
-                        url = "http://localhost:8080"
-                ),
-                @Server(
-                        description = "PROD ENV",
-                        url = "https://aliboucoding.com/course"
+                        name = "Struchkov Mark",
+                        email = "mark@struchkov.dev",
+                        url = "https://mark.struchkov.dev"
                 )
-        },
-        security = {
-                @SecurityRequirement(
-                        name = "bearerAuth"
-                )
-        }
+        )
 )
-@SecurityScheme(
-        name = "bearerAuth",
-        description = "JWT auth description",
-        scheme = "bearer",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
-)
+
 @Configuration
 public class SwaggerConfig {
 

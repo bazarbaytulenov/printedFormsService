@@ -1,10 +1,11 @@
+/*
 package kz.project.printedFormsService.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "group", schema = "template_schema")
+@Table(name = "group")
 public class GroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,3 +16,4 @@ public class GroupEntity {
     private Boolean isDelete;
     private Boolean isEdit;
 }
+*/
