@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 
 @RestController
@@ -29,19 +31,19 @@ public class TemplateController {
     @GetMapping("/{code}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
     public Map<String, byte[]> getTemplate(@Parameter(name = "Идентификатор шаблона", required = true)@PathVariable("code") String code){
-        return service.getTemplate(code);
+              return service.getTemplate(code);
     }
 
     @PostMapping("/save")
     @Operation(description = "Метод сохранения шаблона")
-    public ResponseEntity seveTemplate(@Parameter(name = "Модель шаблона", required = true)@RequestBody TemplateDto dto){
+    public ResponseEntity seveTemplate(@Parameter(name = "Модель шаблона", required = true)@RequestBody TemplateDto dto) throws IOException {
         service.save(dto);
         return  new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/edit")
     @Operation(description = "Метод для сохранение изменения")
-    public ResponseEntity<ResponseDto> editTemplate(@Parameter(name = "Модель шаблона", required = true)@RequestBody TemplateDto dto){
+    public ResponseEntity<ResponseDto> editTemplate(@Parameter(name = "Модель шаблона", required = true)@RequestBody TemplateDto dto) throws IOException {
         ResponseDto edit = service.edit(dto);
         return  ResponseEntity.ok(edit);
     }

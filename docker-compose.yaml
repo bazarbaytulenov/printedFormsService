@@ -1,3 +1,4 @@
+
 version: '3'
 services:
   postgres:
@@ -10,6 +11,7 @@ services:
       - 5432
     ports:
       - "5432:5432"
+
   client-backend:
     image: templete-service:latest
     build:

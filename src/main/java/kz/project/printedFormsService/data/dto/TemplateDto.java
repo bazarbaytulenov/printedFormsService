@@ -1,5 +1,6 @@
 package kz.project.printedFormsService.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import kz.project.printedFormsService.data.entity.TemplateEntity;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +39,12 @@ public class TemplateDto {
     private Boolean isActive;
     @NotBlank
     @Schema(name ="data", description = "Шаблон")
-    private byte[] data;
+    @JsonRawValue
+    private String data;
     @NotBlank
     @Schema(name ="header", description = "Шаблон заголовка")
-    private byte [] header;
+    @JsonRawValue
+    private String header;
 
 
     public static TemplateDto toDtoShort(TemplateEntity te) {
@@ -58,8 +62,8 @@ public class TemplateDto {
                 .isActive(te.getIsActive())
                 .nameBody(te.getNameBody())
                 .type(te.getType())
-                .data(te.getData())
-                .header(te.getHeader())
+                .data(new String(te.getData()))
+                .header(new String(te.getHeader()))
                 .nameHeader(te.getNameHeader())
                 .build();
     }

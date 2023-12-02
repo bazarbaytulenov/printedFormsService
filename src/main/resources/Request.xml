@@ -1,44 +1,161 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-<SOAP-ENV:Header>
-<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" SOAP-ENV:mustUnderstand="1">
-<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
-<ds:SignedInfo>
-<ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#gost34310-gost34311"/>
-<ds:Reference URI="#id-b0697ec3-ca8c-4831-9d13-52f58d2c2798">
-<ds:Transforms>
-<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-</ds:Transforms>
-<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#gost34311"/>
-<ds:DigestValue>kcbkQ1xPE/1P3QCcdSGU4vTU4JPupk7J25wCdrfflnA=</ds:DigestValue>
-</ds:Reference>
-</ds:SignedInfo>
-<ds:SignatureValue>C63XQVTJRwUgkuYJe5EZH5lM55Yu4zFTG5MjyJWGXN+Dl+7d67kG0ucRiplCA0pVGytGuNNV5mu+uWb7nIamkQ==</ds:SignatureValue>
-<ds:KeyInfo>
-<wsse:SecurityTokenReference>
-<wsse:KeyIdentifier EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3">MIIE1jCCBICgAwIBAgIUeAW3HQuBuUpK+2czXy9vCdJ+fXcwDQYJKoMOAwoBAQECBQAwUzELMAkGA1UEBhMCS1oxRDBCBgNVBAMMO9Kw0JvQotCi0KvSmiDQmtCj05jQm9CQ0J3QlNCr0KDQo9Co0Ksg0J7QoNCi0JDQm9Cr0pogKEdPU1QpMB4XDTIyMTIwNjAzMDUzN1oXDTIzMTIwNjAzMDUzN1owggFoMSYwJAYDVQQDDB3QldCh0JXQndCR0JDQldCSINCR0JXQmdCR0KPQojEZMBcGA1UEBAwQ0JXQodCV0J3QkdCQ0JXQkjEYMBYGA1UEBRMPSUlOODUxMDA5MzUwMjEyMQswCQYDVQQGEwJLWjGBoDCBnQYDVQQKDIGV0JPQvtGB0YPQtNCw0YDRgdGC0LLQtdC90L3QvtC1INGD0YfRgNC10LbQtNC10L3QuNC1ICLQnNC40L3QuNGB0YLQtdGA0YHRgtCy0L4g0LfQtNGA0LDQstC+0L7RhdGA0LDQvdC10L3QuNGPINCg0LXRgdC/0YPQsdC70LjQutC4INCa0LDQt9Cw0YXRgdGC0LDQvSIxGDAWBgNVBAsMD0JJTjE3MDM0MDAwMDkxNTEbMBkGA1UEKgwS0KHQkNCb0KvQnNCe0JLQmNCnMSIwIAYJKoZIhvcNAQkBFhNiZWlidXQuZXNAZ21haWwuY29tMGwwJQYJKoMOAwoBAQEBMBgGCiqDDgMKAQEBAQEGCiqDDgMKAQMBAQADQwAEQLD61ai18epxlLtVrDAElpHjLxtGomZ6nq0fc5jD75Mb/DVYmh9zWeVVnC52jW1mYafUQ7xuTq7zcX3qZiDbbO2jggIDMIIB/zAOBgNVHQ8BAf8EBAMCBsAwKAYDVR0lBCEwHwYIKwYBBQUHAwQGCCqDDgMDBAECBgkqgw4DAwQBAgUwXgYDVR0gBFcwVTBTBgcqgw4DAwIBMEgwIQYIKwYBBQUHAgEWFWh0dHA6Ly9wa2kuZ292Lmt6L2NwczAjBggrBgEFBQcCAjAXDBVodHRwOi8vcGtpLmdvdi5rei9jcHMwWAYDVR0fBFEwTzBNoEugSYYiaHR0cDovL2NybC5wa2kuZ292Lmt6L25jYV9nb3N0LmNybIYjaHR0cDovL2NybDEucGtpLmdvdi5rei9uY2FfZ29zdC5jcmwwXAYDVR0uBFUwUzBRoE+gTYYkaHR0cDovL2NybC5wa2kuZ292Lmt6L25jYV9kX2dvc3QuY3JshiVodHRwOi8vY3JsMS5wa2kuZ292Lmt6L25jYV9kX2dvc3QuY3JsMGMGCCsGAQUFBwEBBFcwVTAvBggrBgEFBQcwAoYjaHR0cDovL3BraS5nb3Yua3ovY2VydC9uY2FfZ29zdC5jZXIwIgYIKwYBBQUHMAGGFmh0dHA6Ly9vY3NwLnBraS5nb3Yua3owHQYDVR0OBBYEFHgFtx0LgblKSvtnM18vbwnSfn13MA8GA1UdIwQIMAaABFtqc+kwFgYGKoMOAwMFBAwwCgYIKoMOAwMFAQEwDQYJKoMOAwoBAQECBQADQQAmzxMgvOhZeeCeISs59L5uzDBcw+ywLQy7Zmp/YO8/PY3vHuccld7y1J2u0Wxb/UMxFeXTymocoxV8wRrHnUbS</wsse:KeyIdentifier>
-</wsse:SecurityTokenReference>
-</ds:KeyInfo>
-</ds:Signature>
-</wsse:Security>
-</SOAP-ENV:Header>
-<SOAP-ENV:Body xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="id-b0697ec3-ca8c-4831-9d13-52f58d2c2798">
-<ns3:SendMessage xmlns:ns3="http://bip.bee.kz/SyncChannel/v10/Types">
-<request>
-<requestInfo>
-<messageId>ab22992e-a5de-4657-b900-283854852bc3</messageId>
-<serviceId>IisconSyncUniversalService</serviceId>
-<messageDate>2023-09-10T15:25:24.401+06:00</messageDate>
-<sender>
-<senderId>mz</senderId>
-<password>mz</password>
-</sender>
-</requestInfo>
-<requestData>
-<data xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;\n&lt;changeApplicationStatus xmlns=\"http://schemas.letograf.kz/iiscon/bus/v1\"&gt;&lt;applicationId&gt;001007787437&lt;/applicationId&gt;\n&lt;callOrigin&gt;\n&lt;orgCode&gt;MZ&lt;/orgCode&gt;\n&lt;employee&gt;\n&lt;position/&gt;\n&lt;/employee&gt;\n&lt;systemCode&gt;934&lt;/systemCode&gt;\n&lt;/callOrigin&gt;\n&lt;applicationStatus&gt;\n&lt;executionStatus&gt;\n&lt;appState&gt;STARTED&lt;/appState&gt;\n&lt;isPositive/&gt;\n&lt;/executionStatus&gt;\n&lt;/applicationStatus&gt;\n&lt;statusDate&gt;10.09.2023 15:23:12&lt;/statusDate&gt;\n&lt;ds:Signature xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" Id=\"1\"&gt;\n&lt;ds:SignedInfo&gt;\n&lt;ds:CanonicalizationMethod Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\"/&gt;\n&lt;ds:SignatureMethod Algorithm=\"http://www.w3.org/2001/04/xmldsig-more#gost34310-gost34311\"/&gt;\n&lt;ds:Reference URI=\"\"&gt;\n&lt;ds:Transforms&gt;\n&lt;ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"/&gt;\n&lt;ds:Transform Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments\"/&gt;\n&lt;/ds:Transforms&gt;\n&lt;ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmldsig-more#gost34311\"/&gt;\n&lt;ds:DigestValue&gt;kCBa5RjhmBNIQkXJqDkTNijlYn07jYy/zWNkvivZ23w=&lt;/ds:DigestValue&gt;\n&lt;/ds:Reference&gt;\n&lt;/ds:SignedInfo&gt;\n&lt;ds:SignatureValue&gt;1qBIUxDC2XTexEKJnoZQNx2YILz4dV96iopu981Y72kyagWth6xCtbdrEqNvwe5d\nx9pGv+IS9KEWEi9KP7rVkg==&lt;/ds:SignatureValue&gt;\n&lt;ds:KeyInfo&gt;\n&lt;ds:X509Data&gt;\n&lt;ds:X509Certificate&gt;MIIE1jCCBICgAwIBAgIUeAW3HQuBuUpK+2czXy9vCdJ+fXcwDQYJKoMOAwoBAQEC\nBQAwUzELMAkGA1UEBhMCS1oxRDBCBgNVBAMMO9Kw0JvQotCi0KvSmiDQmtCj05jQ\nm9CQ0J3QlNCr0KDQo9Co0Ksg0J7QoNCi0JDQm9Cr0pogKEdPU1QpMB4XDTIyMTIw\nNjAzMDUzN1oXDTIzMTIwNjAzMDUzN1owggFoMSYwJAYDVQQDDB3QldCh0JXQndCR\n0JDQldCSINCR0JXQmdCR0KPQojEZMBcGA1UEBAwQ0JXQodCV0J3QkdCQ0JXQkjEY\nMBYGA1UEBRMPSUlOODUxMDA5MzUwMjEyMQswCQYDVQQGEwJLWjGBoDCBnQYDVQQK\nDIGV0JPQvtGB0YPQtNCw0YDRgdGC0LLQtdC90L3QvtC1INGD0YfRgNC10LbQtNC1\n0L3QuNC1ICLQnNC40L3QuNGB0YLQtdGA0YHRgtCy0L4g0LfQtNGA0LDQstC+0L7R\nhdGA0LDQvdC10L3QuNGPINCg0LXRgdC/0YPQsdC70LjQutC4INCa0LDQt9Cw0YXR\ngdGC0LDQvSIxGDAWBgNVBAsMD0JJTjE3MDM0MDAwMDkxNTEbMBkGA1UEKgwS0KHQ\nkNCb0KvQnNCe0JLQmNCnMSIwIAYJKoZIhvcNAQkBFhNiZWlidXQuZXNAZ21haWwu\nY29tMGwwJQYJKoMOAwoBAQEBMBgGCiqDDgMKAQEBAQEGCiqDDgMKAQMBAQADQwAE\nQLD61ai18epxlLtVrDAElpHjLxtGomZ6nq0fc5jD75Mb/DVYmh9zWeVVnC52jW1m\nYafUQ7xuTq7zcX3qZiDbbO2jggIDMIIB/zAOBgNVHQ8BAf8EBAMCBsAwKAYDVR0l\nBCEwHwYIKwYBBQUHAwQGCCqDDgMDBAECBgkqgw4DAwQBAgUwXgYDVR0gBFcwVTBT\nBgcqgw4DAwIBMEgwIQYIKwYBBQUHAgEWFWh0dHA6Ly9wa2kuZ292Lmt6L2NwczAj\nBggrBgEFBQcCAjAXDBVodHRwOi8vcGtpLmdvdi5rei9jcHMwWAYDVR0fBFEwTzBN\noEugSYYiaHR0cDovL2NybC5wa2kuZ292Lmt6L25jYV9nb3N0LmNybIYjaHR0cDov\nL2NybDEucGtpLmdvdi5rei9uY2FfZ29zdC5jcmwwXAYDVR0uBFUwUzBRoE+gTYYk\naHR0cDovL2NybC5wa2kuZ292Lmt6L25jYV9kX2dvc3QuY3JshiVodHRwOi8vY3Js\nMS5wa2kuZ292Lmt6L25jYV9kX2dvc3QuY3JsMGMGCCsGAQUFBwEBBFcwVTAvBggr\nBgEFBQcwAoYjaHR0cDovL3BraS5nb3Yua3ovY2VydC9uY2FfZ29zdC5jZXIwIgYI\nKwYBBQUHMAGGFmh0dHA6Ly9vY3NwLnBraS5nb3Yua3owHQYDVR0OBBYEFHgFtx0L\ngblKSvtnM18vbwnSfn13MA8GA1UdIwQIMAaABFtqc+kwFgYGKoMOAwMFBAwwCgYI\nKoMOAwMFAQEwDQYJKoMOAwoBAQECBQADQQAmzxMgvOhZeeCeISs59L5uzDBcw+yw\nLQy7Zmp/YO8/PY3vHuccld7y1J2u0Wxb/UMxFeXTymocoxV8wRrHnUbS&lt;/ds:X509Certificate&gt;\n&lt;/ds:X509Data&gt;\n&lt;/ds:KeyInfo&gt;\n&lt;/ds:Signature&gt;&lt;/changeApplicationStatus&gt;\n"</data>
-</requestData>
-</request>
-</ns3:SendMessage>
-</SOAP-ENV:Body>
-</SOAP-ENV:Envelope>
+"<?xml version="1.0" encoding="UTF-8"?>"
+"<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->"
+"<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JSONReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d8b3a6dd-e841-46a3-84c5-8738634727d2">"
+"    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="JSON Adapter 4.jrdax"/>"
+"    <queryString language="JSON">"
+"        <![CDATA[age]]>"
+"    </queryString>"
+"    <field name="node" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="."/>"
+"        <fieldDescription><![CDATA[.]]></fieldDescription>"
+"    </field>"
+"    <field name="type" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="type"/>"
+"        <fieldDescription><![CDATA[type]]></fieldDescription>"
+"    </field>"
+"    <field name="name" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="name"/>"
+"        <fieldDescription><![CDATA[name]]></fieldDescription>"
+"    </field>"
+"    <field name="age" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="age"/>"
+"        <fieldDescription><![CDATA[age]]></fieldDescription>"
+"    </field>"
+"    <field name="paws" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="paws"/>"
+"        <fieldDescription><![CDATA[paws]]></fieldDescription>"
+"    </field>"
+"    <field name="tail" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="tail"/>"
+"        <fieldDescription><![CDATA[tail]]></fieldDescription>"
+"    </field>"
+"    <field name="eyes" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="eyes"/>"
+"        <fieldDescription><![CDATA[eyes]]></fieldDescription>"
+"    </field>"
+"    <field name="breed" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="breed"/>"
+"        <fieldDescription><![CDATA[breed]]></fieldDescription>"
+"    </field>"
+"    <field name="photo" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="photo"/>"
+"        <fieldDescription><![CDATA[photo]]></fieldDescription>"
+"    </field>"
+"    <field name="thoroughbred" class="java.lang.String">"
+"        <property name="net.sf.jasperreports.json.field.expression" value="thoroughbred"/>"
+"        <fieldDescription><![CDATA[thoroughbred]]></fieldDescription>"
+"    </field>"
+"    <background>"
+"        <band splitType="Stretch"/>"
+"    </background>"
+"    <detail>"
+"        <band height="240" splitType="Stretch">"
+"            <textField>"
+"                <reportElement x="220" y="60" width="164" height="20" uuid="f5fa2510-f982-4dbf-85f7-f55928f1a569"/>"
+"                <textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>"
+"            </textField>"
+"            <staticText>"
+"                <reportElement x="163" y="0" width="228" height="40" uuid="206c837b-aa7b-4433-9599-b78f00d628f3"/>"
+"                <textElement textAlignment="Center" verticalAlignment="Middle">"
+"                    <font fontName="Arial" size="16" isBold="true" isItalic="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Описание животного]]></text>"
+"            </staticText>"
+"            <staticText>"
+"                <reportElement x="104" y="60" width="116" height="20" uuid="8a3e1d8c-975d-4caf-a132-a6d3d88a822f"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Тип:]]></text>"
+"            </staticText>"
+"            <staticText>"
+"                <reportElement x="104" y="80" width="116" height="20" uuid="bd555d13-4f8e-4570-9dc7-bdeabe158467"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Кличка:]]></text>"
+"            </staticText>"
+"            <staticText>"
+"                <reportElement x="104" y="100" width="116" height="20" uuid="7d4d1764-eed1-4630-a2b1-10772296874a"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Возраст:]]></text>"
+"            </staticText>"
+"            <textField>"
+"                <reportElement x="220" y="80" width="164" height="20" uuid="97f17486-7d92-443b-b1ca-e3f64dcbdf32"/>"
+"                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>"
+"            </textField>"
+"            <textField>"
+"                <reportElement x="220" y="100" width="164" height="20" uuid="cf3151fb-4926-449b-99f0-444ca0fc4c09"/>"
+"                <textFieldExpression><![CDATA[$F{age}]]></textFieldExpression>"
+"            </textField>"
+"            <staticText>"
+"                <reportElement x="104" y="120" width="116" height="20" uuid="d3e9f3f5-be7b-4d9b-bea0-df94e49dd339"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Свойства:]]></text>"
+"            </staticText>"
+"            <staticText>"
+"                <reportElement x="124" y="140" width="120" height="20" uuid="ef4121e6-a944-416b-bf0f-8c4af995f186"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Лапы:]]></text>"
+"            </staticText>"
+"            <textField>"
+"                <reportElement x="244" y="140" width="140" height="20" uuid="f36c8cee-dde9-49e2-9c86-fa44809a28fd"/>"
+"                <textFieldExpression><![CDATA[$F{paws}]]></textFieldExpression>"
+"            </textField>"
+"            <staticText>"
+"                <reportElement x="124" y="160" width="120" height="20" uuid="c5115378-8ff4-4813-9e58-52b9a561ad05"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Хвост:]]></text>"
+"            </staticText>"
+"            <textField>"
+"                <reportElement x="244" y="160" width="140" height="20" uuid="679c9859-9dbb-45ba-943a-68ce064f4338"/>"
+"                <textFieldExpression><![CDATA[$F{tail}]]></textFieldExpression>"
+"            </textField>"
+"            <image>"
+"                <reportElement x="386" y="60" width="124" height="120" uuid="8820e0be-749e-4bf7-b1f4-9252c84875c4"/>"
+"                <imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{photo}))]]></imageExpression>"
+"            </image>"
+"            <staticText>"
+"                <reportElement x="124" y="180" width="120" height="20" uuid="08be4f2f-5101-4c9c-a605-0f6bd63183ab"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Глаза:]]></text>"
+"            </staticText>"
+"            <textField>"
+"                <reportElement x="244" y="180" width="140" height="20" uuid="393ebbbb-3dff-462f-b689-8a1ee31030a5"/>"
+"                <textFieldExpression><![CDATA[$F{eyes}]]></textFieldExpression>"
+"            </textField>"
+"            <staticText>"
+"                <reportElement x="124" y="200" width="120" height="20" uuid="7a58acc4-d08f-4a1d-b1bb-5935dffb5fb8"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Порода:]]></text>"
+"            </staticText>"
+"            <textField>"
+"                <reportElement x="244" y="200" width="140" height="20" uuid="bc8afc8f-36ff-481f-bfe3-771e7162b019"/>"
+"                <textFieldExpression><![CDATA[$F{breed}]]></textFieldExpression>"
+"            </textField>"
+"            <staticText>"
+"                <reportElement x="124" y="220" width="120" height="20" uuid="d9d7d32c-6040-4fab-ad87-e016dcf882e0"/>"
+"                <textElement>"
+"                    <font isBold="true"/>"
+"                </textElement>"
+"                <text><![CDATA[Породистый:]]></text>"
+"            </staticText>"
+"            <textField>"
+"                <reportElement x="244" y="220" width="140" height="20" uuid="c726f776-3357-4a2b-832d-046562b63884"/>"
+"                <textFieldExpression><![CDATA[$F{thoroughbred}]]></textFieldExpression>"
+"            </textField>"
+"        </band>"
+"    </detail>"
+"</jasperReport>"

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,12 +31,12 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public void save(TemplateDto dto) {
+    public void save(TemplateDto dto) throws IOException {
         TemplateEntity templateEntity = new TemplateEntity();
         if (dto == null) return;
         templateEntity.setCode(dto.getCode());
-        templateEntity.setData(dto.getData());
-        templateEntity.setHeader(dto.getHeader());
+        templateEntity.setData(dto.getData().getBytes(StandardCharsets.UTF_8));
+        templateEntity.setHeader(dto.getHeader().getBytes(StandardCharsets.UTF_8));
         templateEntity.setNameBody(dto.getNameBody());
         templateEntity.setNameHeader(dto.getNameHeader());
         templateEntity.setType(dto.getType());
@@ -44,12 +46,12 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public ResponseDto edit(TemplateDto dto) {
+    public ResponseDto edit(TemplateDto dto) throws IOException {
         TemplateEntity templateEntity = repository.findByCode(dto.getCode()).orElse(null);
         if (templateEntity == null) return new ResponseDto(null, "TemplateEntity is empty", null);
         templateEntity.setCode(dto.getCode());
-        templateEntity.setData(dto.getData());
-        templateEntity.setHeader(dto.getHeader());
+        templateEntity.setData(dto.getData().getBytes(StandardCharsets.UTF_8));
+        templateEntity.setHeader(dto.getHeader().getBytes(StandardCharsets.UTF_8));
         templateEntity.setNameBody(dto.getNameBody());
         templateEntity.setNameHeader(dto.getNameHeader());
         templateEntity.setType(dto.getType());
