@@ -30,7 +30,7 @@ public class TemplateController {
 
     @GetMapping("/{code}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
-    public Map<String, byte[]> getTemplate(@Parameter(name = "Идентификатор шаблона", required = true)@PathVariable("code") String code){
+    public Map<String, byte[]> getTemplate(@Parameter(name = "Идентификатор шаблона", required = true)@PathVariable String code){
               return service.getTemplate(code);
     }
 
