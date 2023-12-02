@@ -1,6 +1,5 @@
 package kz.project.printedFormsService.data.dto;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import kz.project.printedFormsService.data.entity.TemplateEntity;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,32 +24,32 @@ public class TemplateDto {
     @Schema(name ="code", description = "Код шаблона")
     private String code;
     @NotBlank
-    @Schema(name = "nameBody", description = "Наименование шаблона")
-    private String nameBody;
+    @Schema(name = "dataName", description = "Наименование шаблона")
+    private String dataName;
     @NotBlank
-    @Schema(name ="nameHeader", description = "Наименование заголовки")
-    private String nameHeader;
+    @Schema(name ="headerName", description = "Наименование заголовки")
+    private String headerName;
     @NotBlank
     @Schema(name = "type", description = "Тип фаила")
     private String type;
     @NotBlank
     @Schema(name ="isActive", description = "Флаг активности")
     private Boolean isActive;
-    @NotBlank
+    /*@NotBlank
     @Schema(name ="data", description = "Шаблон")
     @JsonRawValue
-    private String data;
-    @NotBlank
+    private String data;*/
+    /*@NotBlank
     @Schema(name ="header", description = "Шаблон заголовка")
     @JsonRawValue
-    private String header;
+    private String header;*/
 
 
     public static TemplateDto toDtoShort(TemplateEntity te) {
        return TemplateDto.builder()
                 .code(te.getCode())
                 .isActive(te.getIsActive())
-                .nameBody(te.getNameBody())
+                .dataName(te.getNameBody())
                 .type(te.getType())
                 .build();
     }
@@ -60,11 +58,11 @@ public class TemplateDto {
         return TemplateDto.builder()
                 .code(te.getCode())
                 .isActive(te.getIsActive())
-                .nameBody(te.getNameBody())
+                .dataName(te.getNameBody())
                 .type(te.getType())
-                .data(new String(te.getData()))
-                .header(new String(te.getHeader()))
-                .nameHeader(te.getNameHeader())
+                //.data(new String(te.getData()))
+                //.header(new String(te.getHeader()))
+                .headerName(te.getNameHeader())
                 .build();
     }
 

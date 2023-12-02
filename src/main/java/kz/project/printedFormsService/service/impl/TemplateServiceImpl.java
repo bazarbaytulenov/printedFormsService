@@ -1,6 +1,5 @@
 package kz.project.printedFormsService.service.impl;
 
-import kz.project.printedFormsService.data.dto.ResponseDto;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.data.entity.TemplateEntity;
 import kz.project.printedFormsService.data.repository.TemplateRepository;
@@ -9,10 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,14 +31,14 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public void save(TemplateDto dto) throws IOException {
+    public void save(TemplateDto dto, List<MultipartFile> files) throws IOException {
         TemplateEntity templateEntity = new TemplateEntity();
         if (dto == null) return;
         templateEntity.setCode(dto.getCode());
-        templateEntity.setData(dto.getData().getBytes(StandardCharsets.UTF_8));
-        templateEntity.setHeader(dto.getHeader().getBytes(StandardCharsets.UTF_8));
-        templateEntity.setNameBody(dto.getNameBody());
-        templateEntity.setNameHeader(dto.getNameHeader());
+        templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
+        templateEntity.setHeader(files.size()==2?files.get(1).getResource().getContentAsByteArray():null);
+        templateEntity.setNameBody(dto.getDataName());
+        templateEntity.setNameHeader(dto.getHeaderName());
         templateEntity.setType(dto.getType());
         templateEntity.setIsActive(dto.getIsActive());
         repository.save(templateEntity);
@@ -46,18 +46,18 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public ResponseDto edit(TemplateDto dto) throws IOException {
+    public void edit(TemplateDto dto, List<MultipartFile> files) throws IOException {
         TemplateEntity templateEntity = repository.findByCode(dto.getCode()).orElse(null);
-        if (templateEntity == null) return new ResponseDto(null, "TemplateEntity is empty", null);
+        if (templateEntity == null) throw new RuntimeException("edit data is empty");
         templateEntity.setCode(dto.getCode());
-        templateEntity.setData(dto.getData().getBytes(StandardCharsets.UTF_8));
-        templateEntity.setHeader(dto.getHeader().getBytes(StandardCharsets.UTF_8));
-        templateEntity.setNameBody(dto.getNameBody());
-        templateEntity.setNameHeader(dto.getNameHeader());
+        templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
+        templateEntity.setHeader(files.size()==2?files.get(1).getResource().getContentAsByteArray():null);
+        templateEntity.setNameBody(dto.getDataName());
+        templateEntity.setNameHeader(dto.getHeaderName());
         templateEntity.setType(dto.getType());
         templateEntity.setIsActive(dto.getIsActive());
         repository.save(templateEntity);
-        return new ResponseDto("eddit is succes save", null, null);
+        //return new ResponseDto("eddit is succes save", null, null);
 
     }
 
