@@ -44,12 +44,12 @@ public class TemplateController {
     @PutMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(description = "Метод сохранения шаблона")
     public ResponseEntity<String> seveTemplate(@RequestParam("data") MultipartFile data,
-                                                @RequestParam(name = "header", required = false) MultipartFile header,
+                                               @RequestParam(name = "header", required = false) MultipartFile header,
                                                TemplateDto dto) throws IOException {
         if (header != null)
             service.save(dto, List.of(data, header));
         else service.save(dto, List.of(data));
-        return ResponseEntity.ok("succes");
+        return ResponseEntity.ok("success");
     }
 
     @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -58,14 +58,14 @@ public class TemplateController {
                                                @Parameter(name = "Шаблон", required = true) @RequestParam(name = "header", required = false) MultipartFile header,
                                                TemplateDto dto) throws IOException {
         service.edit(dto, List.of(data, header));
-        return ResponseEntity.ok("edit is succes");
+        return ResponseEntity.ok("edit is success");
     }
 
     @DeleteMapping("/delete/{code}")
     @Operation(description = "Метод для удаления шаблона по идентификатору")
     public ResponseEntity<String> deleteTemplate(@Parameter(name = "Идентификатор шаблона", required = true) @PathVariable("code") String code) {
         service.delete(code);
-        return ResponseEntity.ok("delete is succes");
+        return ResponseEntity.ok("delete is success");
     }
 
     @GetMapping("/all")

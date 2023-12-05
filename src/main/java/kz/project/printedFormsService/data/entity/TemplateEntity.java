@@ -1,6 +1,7 @@
 package kz.project.printedFormsService.data.entity;
 
 import jakarta.persistence.*;
+import kz.project.printedFormsService.data.entity.dict.DTemplateType;
 import lombok.Data;
 
 @Entity
@@ -13,12 +14,13 @@ public class TemplateEntity {
     private String code;
     private String nameBody;
     private String nameHeader;
-    private  String type;
     private Boolean isActive;
     private String path;
     private byte[] data;
     private byte[] header;
     private String version;
+    @ManyToOne
+    private DTemplateType type;
 
 
 }

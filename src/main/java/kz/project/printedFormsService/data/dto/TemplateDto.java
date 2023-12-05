@@ -53,7 +53,7 @@ public class TemplateDto {
                 .code(te.getCode())
                 .isActive(te.getIsActive())
                 .dataName(te.getNameBody())
-                .type(te.getType())
+                .type(te.getType().getCode())
                .version(te.getVersion())
                 .build();
     }
@@ -63,7 +63,7 @@ public class TemplateDto {
                 .code(te.getCode())
                 .isActive(te.getIsActive())
                 .dataName(te.getNameBody())
-                .type(te.getType())
+                .type(te.getType().getCode())
                 //.data(new String(te.getData()))
                 //.header(new String(te.getHeader()))
                 .headerName(te.getNameHeader())

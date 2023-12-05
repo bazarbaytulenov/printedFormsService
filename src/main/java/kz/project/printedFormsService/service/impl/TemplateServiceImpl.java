@@ -2,6 +2,7 @@ package kz.project.printedFormsService.service.impl;
 
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.data.entity.TemplateEntity;
+import kz.project.printedFormsService.data.repository.DTemplateTypeRepository;
 import kz.project.printedFormsService.data.repository.TemplateRepository;
 import kz.project.printedFormsService.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TemplateServiceImpl implements TemplateService {
     private final TemplateRepository repository;
+    private final DTemplateTypeRepository dTemplateTypeRepository;
 
     @Override
     public Map<String, byte[]> getTemplate(String code) {
@@ -33,13 +35,13 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public void save(TemplateDto dto, List<MultipartFile> files) throws IOException {
         TemplateEntity templateEntity = new TemplateEntity();
-        if (dto == null) return;
+        if (dto.getCode() == null) return;
         templateEntity.setCode(dto.getCode());
         templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
         templateEntity.setHeader(files.size()==2?files.get(1).getResource().getContentAsByteArray():null);
         templateEntity.setNameBody(dto.getDataName());
         templateEntity.setNameHeader(dto.getHeaderName());
-        templateEntity.setType(dto.getType());
+        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow());
         templateEntity.setIsActive(dto.getIsActive());
         repository.save(templateEntity);
 
@@ -54,7 +56,7 @@ public class TemplateServiceImpl implements TemplateService {
         templateEntity.setHeader(files.size()==2?files.get(1).getResource().getContentAsByteArray():null);
         templateEntity.setNameBody(dto.getDataName());
         templateEntity.setNameHeader(dto.getHeaderName());
-        templateEntity.setType(dto.getType());
+        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow());
         templateEntity.setIsActive(dto.getIsActive());
         repository.save(templateEntity);
         //return new ResponseDto("eddit is succes save", null, null);
