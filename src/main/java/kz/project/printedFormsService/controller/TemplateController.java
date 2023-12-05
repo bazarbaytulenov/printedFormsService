@@ -1,5 +1,6 @@
 package kz.project.printedFormsService.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,10 +28,17 @@ public class TemplateController {
 
     private final TemplateService service;
 
+    @Hidden
     @GetMapping("/{code}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
     public Map<String, byte[]> getTemplate(@Parameter(name = "Идентификатор шаблона", required = true) @PathVariable String code) {
         return service.getTemplate(code);
+    }
+
+    @GetMapping("get/{code}")
+    @Operation(description = "Метод для получения шаблона по идентификатору")
+    public ResponseEntity<TemplateDto> getTemplateData(@Parameter(name = "Идентификатор шаблона", required = true) @PathVariable String code) {
+        return ResponseEntity.ok(service.getTemplateData(code));
     }
 
     @PutMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -66,6 +74,14 @@ public class TemplateController {
                                     @Parameter(name = "Номер страницы") @RequestParam(value = "page", defaultValue = "0") Integer page,
                                     @Parameter(name = "Количество записейв странице") @RequestParam(value = "size", defaultValue = "50") Integer size) {
         return service.getAllTemplate(isActive, PageRequest.of(page, size));
+    }
+
+    @GetMapping("/all/{code}")
+    @Operation(description = "Метод для получения всех шаблонов")
+    public Page<TemplateDto> getAllByCode(@Parameter(name = "Признак активности если значение null возвращяется все") @PathVariable(value = "code") String code,
+                                    @Parameter(name = "Номер страницы") @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @Parameter(name = "Количество записейв странице") @RequestParam(value = "size", defaultValue = "50") Integer size) {
+        return service.getAllTemplateByCode(code, PageRequest.of(page, size));
     }
 
 }

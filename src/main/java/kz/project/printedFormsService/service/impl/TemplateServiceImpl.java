@@ -75,4 +75,16 @@ public class TemplateServiceImpl implements TemplateService {
         else return TemplateDto.toDtoList(repository.findAllByIsActiveFalse(pageable));
 
     }
+
+    @Override
+    public TemplateDto getTemplateData(String code) {
+        return repository.findFirstByCodeOrderByVersionDesc(code).orElse(null);
+    }
+
+    @Override
+    public Page<TemplateDto> getAllTemplateByCode(String code, Pageable pageable) {
+        if (code != null)
+            return TemplateDto.toDtoList(repository.findAllByCode(pageable, code));
+        return null;
+    }
 }

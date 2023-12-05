@@ -19,4 +19,8 @@ public interface TemplateService {
     void delete(String code);
 
     Page<TemplateDto> getAllTemplate(Boolean isActive, Pageable pageable);
+
+    TemplateDto getTemplateData(String code);
+
+    Page<TemplateDto> getAllTemplateByCode(String code, Pageable pageable);
 }

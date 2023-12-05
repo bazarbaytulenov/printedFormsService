@@ -18,5 +18,7 @@ public class TemplateEntity {
     private String path;
     private byte[] data;
     private byte[] header;
+    private String version;
+
 
 }

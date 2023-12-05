@@ -35,6 +35,9 @@ public class TemplateDto {
     @NotBlank
     @Schema(name ="isActive", description = "Флаг активности")
     private Boolean isActive;
+    @NotBlank
+    @Schema(name ="version", description = "Версия активности")
+    private String version;
     /*@NotBlank
     @Schema(name ="data", description = "Шаблон")
     @JsonRawValue
@@ -51,6 +54,7 @@ public class TemplateDto {
                 .isActive(te.getIsActive())
                 .dataName(te.getNameBody())
                 .type(te.getType())
+               .version(te.getVersion())
                 .build();
     }
 
@@ -63,6 +67,7 @@ public class TemplateDto {
                 //.data(new String(te.getData()))
                 //.header(new String(te.getHeader()))
                 .headerName(te.getNameHeader())
+                .version(te.getVersion())
                 .build();
     }
 
