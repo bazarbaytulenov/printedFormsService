@@ -15,5 +15,6 @@ public class UserDto {
     private String name;
     private String email;
     private List<String>projects;
+    private List<String> roles;
 
 }

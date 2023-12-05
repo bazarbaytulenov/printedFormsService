@@ -17,7 +17,7 @@ public interface TemplateRepository extends JpaRepository<TemplateEntity, Long> 
     Page<TemplateEntity> findAllByIsActiveTrue(Pageable pageable);
     Page<TemplateEntity> findAllByIsActiveFalse(Pageable pageable);
 
-    Optional<TemplateDto> findFirstByCodeOrderByVersionDesc(String code);
+    Optional<TemplateEntity> findFirstByCodeOrderByVersionDesc(String code);
 
     Page<TemplateEntity> findAllByCode(Pageable pageable, String code);
 }

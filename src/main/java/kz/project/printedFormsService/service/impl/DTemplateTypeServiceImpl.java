@@ -14,7 +14,7 @@ import java.util.List;
 public class DTemplateTypeServiceImpl implements DTemplateTypeService {
     private final DTemplateTypeRepository repository;
 
-    List<DTemplateTypeDto> getAllTemplateType(){
+    public List<DTemplateTypeDto> getAllTemplateType(){
         List<DTemplateType> all = repository.findAll();
         return DTemplateTypeDto.toDtoList(all);
     }

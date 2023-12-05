@@ -37,7 +37,7 @@ public class TemplateDto {
     private Boolean isActive;
     @NotBlank
     @Schema(name ="version", description = "Версия активности")
-    private String version;
+    private Integer version;
     /*@NotBlank
     @Schema(name ="data", description = "Шаблон")
     @JsonRawValue

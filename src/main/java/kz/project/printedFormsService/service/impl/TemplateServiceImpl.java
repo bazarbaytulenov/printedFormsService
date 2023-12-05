@@ -34,32 +34,16 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public void save(TemplateDto dto, List<MultipartFile> files) throws IOException {
-        TemplateEntity templateEntity = new TemplateEntity();
-        if (dto.getCode() == null) return;
-        templateEntity.setCode(dto.getCode());
-        templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
-        templateEntity.setHeader(files.size()==2?files.get(1).getResource().getContentAsByteArray():null);
-        templateEntity.setNameBody(dto.getDataName());
-        templateEntity.setNameHeader(dto.getHeaderName());
-        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow());
-        templateEntity.setIsActive(dto.getIsActive());
+        if (dto.getCode() == null) throw new RuntimeException("data is empty");
+        TemplateEntity templateEntity = createTemplateEntity(dto, files);
         repository.save(templateEntity);
 
     }
 
     @Override
     public void edit(TemplateDto dto, List<MultipartFile> files) throws IOException {
-        TemplateEntity templateEntity = repository.findByCode(dto.getCode()).orElse(null);
-        if (templateEntity == null) throw new RuntimeException("edit data is empty");
-        templateEntity.setCode(dto.getCode());
-        templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
-        templateEntity.setHeader(files.size()==2?files.get(1).getResource().getContentAsByteArray():null);
-        templateEntity.setNameBody(dto.getDataName());
-        templateEntity.setNameHeader(dto.getHeaderName());
-        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow());
-        templateEntity.setIsActive(dto.getIsActive());
-        repository.save(templateEntity);
-        //return new ResponseDto("eddit is succes save", null, null);
+        if (dto == null) throw new RuntimeException("edit data is empty");
+        repository.save(createTemplateEntity(dto, files));
 
     }
 
@@ -80,7 +64,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public TemplateDto getTemplateData(String code) {
-        return repository.findFirstByCodeOrderByVersionDesc(code).orElse(null);
+        return  TemplateDto.toDto(repository.findFirstByCodeOrderByVersionDesc(code).orElse(null));
     }
 
     @Override
@@ -88,5 +72,18 @@ public class TemplateServiceImpl implements TemplateService {
         if (code != null)
             return TemplateDto.toDtoList(repository.findAllByCode(pageable, code));
         return null;
+    }
+
+    private TemplateEntity createTemplateEntity(TemplateDto dto, List<MultipartFile> files) throws IOException {
+        TemplateEntity templateEntity = new TemplateEntity();
+        templateEntity.setCode(dto.getCode());
+        templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
+        templateEntity.setHeader(files.size()==2? files.get(1).getResource().getContentAsByteArray():null);
+        templateEntity.setNameBody(dto.getDataName());
+        templateEntity.setNameHeader(dto.getHeaderName());
+        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow());
+        templateEntity.setIsActive(dto.getIsActive());
+        templateEntity.setVersion(dto.getVersion()!=null? dto.getVersion()+1 : 1);
+        return templateEntity;
     }
 }

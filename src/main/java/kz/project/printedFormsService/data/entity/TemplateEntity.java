@@ -18,7 +18,9 @@ public class TemplateEntity {
     private String path;
     private byte[] data;
     private byte[] header;
-    private String version;
+    private Integer version;
+    private String hsshData;
+    private String hashHeader;
     @ManyToOne
     private DTemplateType type;
 

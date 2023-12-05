@@ -31,13 +31,13 @@ public class TemplateController {
     @Hidden
     @GetMapping("/{code}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
-    public Map<String, byte[]> getTemplate(@Parameter(name = "Идентификатор шаблона", required = true) @PathVariable String code) {
+    public Map<String, byte[]> getTemplate(@Parameter(name = "code", required = true) @PathVariable String code) {
         return service.getTemplate(code);
     }
 
     @GetMapping("get/{code}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
-    public ResponseEntity<TemplateDto> getTemplateData(@Parameter(name = "Идентификатор шаблона", required = true) @PathVariable String code) {
+    public ResponseEntity<TemplateDto> getTemplateData(@Parameter(name = "code", required = true) @PathVariable String code) {
         return ResponseEntity.ok(service.getTemplateData(code));
     }
 
@@ -46,41 +46,46 @@ public class TemplateController {
     public ResponseEntity<String> seveTemplate(@RequestParam("data") MultipartFile data,
                                                @RequestParam(name = "header", required = false) MultipartFile header,
                                                TemplateDto dto) throws IOException {
+        if (header != null) {
+            service.save(dto, List.of(data, header));
+            return ResponseEntity.ok("success");
+        } else {
+            service.save(dto, List.of(data));
+            return ResponseEntity.ok("success");
+        }
+    }
+
+    @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(description = "Метод для сохранение изменения")
+    public ResponseEntity<String> editTemplate(@RequestParam("data") MultipartFile data,
+                                               @RequestParam(name = "header", required = false) MultipartFile header,
+                                               TemplateDto dto) throws IOException {
         if (header != null)
             service.save(dto, List.of(data, header));
         else service.save(dto, List.of(data));
         return ResponseEntity.ok("success");
     }
 
-    @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(description = "Метод для сохранение изменения")
-    public ResponseEntity<String> editTemplate(@Parameter(name = "Шаблон", required = true) @RequestParam("data") MultipartFile data,
-                                               @Parameter(name = "Шаблон", required = true) @RequestParam(name = "header", required = false) MultipartFile header,
-                                               TemplateDto dto) throws IOException {
-        service.edit(dto, List.of(data, header));
-        return ResponseEntity.ok("edit is success");
-    }
-
     @DeleteMapping("/delete/{code}")
     @Operation(description = "Метод для удаления шаблона по идентификатору")
-    public ResponseEntity<String> deleteTemplate(@Parameter(name = "Идентификатор шаблона", required = true) @PathVariable("code") String code) {
+    public ResponseEntity<String> deleteTemplate(@Parameter(name = "code", required = true) @PathVariable("code") String code) {
         service.delete(code);
         return ResponseEntity.ok("delete is success");
     }
 
     @GetMapping("/all")
     @Operation(description = "Метод для получения всех шаблонов")
-    public Page<TemplateDto> getAll(@Parameter(name = "Признак активности если значение null возвращяется все") @RequestParam(value = "isActive", required = false) Boolean isActive,
-                                    @Parameter(name = "Номер страницы") @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                    @Parameter(name = "Количество записейв странице") @RequestParam(value = "size", defaultValue = "50") Integer size) {
+    public Page<TemplateDto> getAll(@Parameter(name = "isActive") @RequestParam(value = "isActive", required = false) Boolean isActive,
+                                    @Parameter(name = "page") @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @Parameter(name = "size") @RequestParam(value = "size", defaultValue = "50") Integer size) {
         return service.getAllTemplate(isActive, PageRequest.of(page, size));
     }
 
     @GetMapping("/all/{code}")
     @Operation(description = "Метод для получения всех шаблонов")
-    public Page<TemplateDto> getAllByCode(@Parameter(name = "Признак активности если значение null возвращяется все") @PathVariable(value = "code") String code,
-                                    @Parameter(name = "Номер страницы") @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                    @Parameter(name = "Количество записейв странице") @RequestParam(value = "size", defaultValue = "50") Integer size) {
+    public Page<TemplateDto> getAllByCode(@Parameter(name = "code") @PathVariable(value = "code") String code,
+                                          @Parameter(name = "page") @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                          @Parameter(name = "size") @RequestParam(value = "size", defaultValue = "50") Integer size) {
         return service.getAllTemplateByCode(code, PageRequest.of(page, size));
     }
 
