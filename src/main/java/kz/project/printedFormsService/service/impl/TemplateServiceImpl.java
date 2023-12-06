@@ -1,8 +1,11 @@
 package kz.project.printedFormsService.service.impl;
 
+import kz.project.printedFormsService.ValidationException;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.data.entity.TemplateEntity;
+import kz.project.printedFormsService.data.entity.TemplateFileInfoEntity;
 import kz.project.printedFormsService.data.repository.DTemplateTypeRepository;
+import kz.project.printedFormsService.data.repository.TemplateFileInfoRepository;
 import kz.project.printedFormsService.data.repository.TemplateRepository;
 import kz.project.printedFormsService.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -22,28 +25,31 @@ public class TemplateServiceImpl implements TemplateService {
     private final TemplateRepository repository;
     private final DTemplateTypeRepository dTemplateTypeRepository;
 
+    private final TemplateFileInfoRepository fileInfoRepository;
+
     @Override
     public Map<String, byte[]> getTemplate(String code) {
         Map<String,byte[]> params = new HashMap<>();
         TemplateEntity templateEntity = repository.findByCode(code).orElse(null);
         if (templateEntity == null) return null;
-        params.put("body", templateEntity.getData());
-        params.put("header", templateEntity.getHeader());
+        params.put("body", templateEntity.getTemplate().getData());
+        params.put("header", templateEntity.getTempleateHeader().getData());
         return params;
     }
 
     @Override
-    public void save(TemplateDto dto, List<MultipartFile> files) throws IOException {
-        if (dto.getCode() == null) throw new RuntimeException("data is empty");
+    public TemplateDto save(TemplateDto dto, List<MultipartFile> files) throws IOException, ValidationException {
+        if(!validateData(dto)) throw new ValidationException("Не переданы обязательные поля",13);
         TemplateEntity templateEntity = createTemplateEntity(dto, files);
-        repository.save(templateEntity);
+        TemplateEntity save = repository.save(templateEntity);
+        return TemplateDto.toDto(save);
 
     }
 
     @Override
-    public void edit(TemplateDto dto, List<MultipartFile> files) throws IOException {
-        if (dto == null) throw new RuntimeException("edit data is empty");
-        repository.save(createTemplateEntity(dto, files));
+    public TemplateDto edit(TemplateDto dto, List<MultipartFile> files) throws IOException, ValidationException {
+        if (!validateData(dto) ||dto.getTemplateId()==null|| repository.findById(dto.getTemplateId())==null) throw new ValidationException("Не переданы обязательные поля",13);
+        return TemplateDto.toDto(repository.save(createTemplateEntity(dto, files)));
 
     }
 
@@ -57,33 +63,58 @@ public class TemplateServiceImpl implements TemplateService {
     public Page<TemplateDto> getAllTemplate(Boolean isActive, Pageable pageable) {
         if (isActive == null) return TemplateDto.toDtoList(repository.findAll(pageable));
         else if (isActive)
-            return TemplateDto.toDtoList(repository.findAllByIsActiveTrue(pageable));
-        else return TemplateDto.toDtoList(repository.findAllByIsActiveFalse(pageable));
+            return TemplateDto.toDtoList(repository.findAllByStatusTrue(pageable));
+        else return TemplateDto.toDtoList(repository.findAllByStatusFalse(pageable));
 
     }
 
     @Override
-    public TemplateDto getTemplateData(String code) {
-        return  TemplateDto.toDto(repository.findFirstByCodeOrderByVersionDesc(code).orElse(null));
+    public TemplateDto getTemplateData(Long id) throws ValidationException {
+        if(id==null) throw new ValidationException("Не переданы обязательные поля",13);
+        return  TemplateDto.toDto(repository.findById(id).orElseThrow(()-> new ValidationException("Не найден шаблон с таким идентификатором или кодом",13)));
     }
 
     @Override
-    public Page<TemplateDto> getAllTemplateByCode(String code, Pageable pageable) {
-        if (code != null)
-            return TemplateDto.toDtoList(repository.findAllByCode(pageable, code));
-        return null;
+    public Page<TemplateDto> getAllTemplateByCode(String code, Pageable pageable) throws ValidationException {
+        if (code != null) {
+            Page<TemplateEntity> allByCode = repository.findAllByCode(pageable, code);
+            if(allByCode!=null)
+            return TemplateDto.toDtoList(allByCode);
+        }
+        throw new ValidationException("Не переданы обязательные поля",13);
     }
 
     private TemplateEntity createTemplateEntity(TemplateDto dto, List<MultipartFile> files) throws IOException {
+        createTempaleFiles(dto, files.get(0).getResource().getContentAsByteArray(),false);
         TemplateEntity templateEntity = new TemplateEntity();
         templateEntity.setCode(dto.getCode());
-        templateEntity.setData(files.get(0).getResource().getContentAsByteArray());
-        templateEntity.setHeader(files.size()==2? files.get(1).getResource().getContentAsByteArray():null);
-        templateEntity.setNameBody(dto.getDataName());
-        templateEntity.setNameHeader(dto.getHeaderName());
+        templateEntity.setTemplate(createTempaleFiles(dto, files.get(0).getResource().getContentAsByteArray(),false));
+        templateEntity.setCode(dto.getCode());
+        templateEntity.setStatus(dto.getStatus());
         templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow());
-        templateEntity.setIsActive(dto.getIsActive());
+        templateEntity.setVersion(dto.getVersion()+1);
+        templateEntity.setTempleateHeader(createTempaleFiles(dto, files.get(1).getResource().getContentAsByteArray(),true));
+        templateEntity.setStatus(dto.getStatus());
         templateEntity.setVersion(dto.getVersion()!=null? dto.getVersion()+1 : 1);
         return templateEntity;
+    }
+
+    private TemplateFileInfoEntity createTempaleFiles(TemplateDto dto, byte[] files, boolean isHeader) throws IOException {
+        return fileInfoRepository.save(TemplateFileInfoEntity.builder()
+                .isHeader(isHeader)
+                .name(dto.getTemplateFile().getFileName())
+                .data(files)
+                .hash(files.hashCode())
+                .build());
+    }
+
+    private boolean validateData(TemplateDto dto) throws ValidationException {
+        if(dto==null
+                || dto.getCode()==null
+                || dto.getName()==null
+                || dto.getStatus()==null
+                || dto.getType()==null)
+            return false;
+        return true;
     }
 }

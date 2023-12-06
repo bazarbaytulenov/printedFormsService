@@ -12,17 +12,14 @@ public class TemplateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
-    private String nameBody;
-    private String nameHeader;
-    private Boolean isActive;
-    private String path;
-    private byte[] data;
-    private byte[] header;
+    private Boolean status;
     private Integer version;
-    private String hsshData;
-    private String hashHeader;
     @ManyToOne
     private DTemplateType type;
+    @OneToOne
+    private  TemplateFileInfoEntity template;
+    @OneToOne
+    private TemplateFileInfoEntity templeateHeader;
 
 
 }

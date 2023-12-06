@@ -3,7 +3,13 @@ package kz.project.printedFormsService.controller;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kz.project.printedFormsService.ValidationException;
+import kz.project.printedFormsService.data.dto.ResponseDto;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -31,39 +37,134 @@ public class TemplateController {
     @Hidden
     @GetMapping("/{code}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Данные получены успешно",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema(implementation = Map.class))
+                    }),
+
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка сервиса",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema( implementation = ValidationException.class))
+                    })
+    })
+
     public Map<String, byte[]> getTemplate(@Parameter(name = "code", required = true) @PathVariable String code) {
         return service.getTemplate(code);
     }
 
-    @GetMapping("get/{code}")
+    @GetMapping("get/{id}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
-    public ResponseEntity<TemplateDto> getTemplateData(@Parameter(name = "code", required = true) @PathVariable String code) {
-        return ResponseEntity.ok(service.getTemplateData(code));
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Данные получены успешно",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema(implementation = TemplateDto.class))
+                    }),
+
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка сервиса",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema( implementation = ValidationException.class))
+                    })
+    })
+
+    public ResponseEntity<TemplateDto> getTemplateData(@Parameter(name = "id", required = true) @PathVariable Long id) throws ValidationException {
+
+        TemplateDto templateData = service.getTemplateData(id);
+            return ResponseEntity.ok(templateData);
     }
 
     @PutMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(description = "Метод сохранения шаблона")
-    public ResponseEntity<String> seveTemplate(@RequestParam("data") MultipartFile data,
-                                               @RequestParam(name = "header", required = false) MultipartFile header,
-                                               TemplateDto dto) throws IOException {
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Данные получены успешно",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema(implementation = TemplateDto.class))
+                    }),
+
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка сервиса",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema( implementation = ValidationException.class))
+                    })
+    })
+
+    public ResponseEntity<TemplateDto> seveTemplate(@RequestParam("data") MultipartFile data,
+                                    @RequestParam(name = "header", required = false) MultipartFile header,
+                                    TemplateDto dto) throws IOException, ValidationException {
         if (header != null) {
-            service.save(dto, List.of(data, header));
-            return ResponseEntity.ok("success");
+            return ResponseEntity.ok(service.save(dto, List.of(data, header)));
         } else {
-            service.save(dto, List.of(data));
-            return ResponseEntity.ok("success");
+            return ResponseEntity.ok(service.save(dto, List.of(data)));
+
         }
     }
 
     @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(description = "Метод для сохранение изменения")
-    public ResponseEntity<String> editTemplate(@RequestParam("data") MultipartFile data,
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Данные получены успешно",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema(implementation = TemplateDto.class))
+                    }),
+
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка сервиса",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema( implementation = ValidationException.class))
+                    })
+    })
+
+    public ResponseEntity<TemplateDto> editTemplate(@RequestParam("data") MultipartFile data,
                                                @RequestParam(name = "header", required = false) MultipartFile header,
-                                               TemplateDto dto) throws IOException {
-        if (header != null)
-            service.save(dto, List.of(data, header));
-        else service.save(dto, List.of(data));
-        return ResponseEntity.ok("success");
+                                               TemplateDto dto) throws IOException, ValidationException {
+        if (header != null) {
+            return ResponseEntity.ok(service.edit(dto, List.of(data, header)));
+        } else {
+            return ResponseEntity.ok(service.edit(dto, List.of(data)));
+
+        }
     }
 
     @DeleteMapping("/delete/{code}")
@@ -74,6 +175,29 @@ public class TemplateController {
     }
 
     @GetMapping("/all")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Данные получены успешно",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema(implementation = Page.class))
+                    }),
+
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка сервиса",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema( implementation = ValidationException.class))
+                    })
+    })
+
     @Operation(description = "Метод для получения всех шаблонов")
     public Page<TemplateDto> getAll(@Parameter(name = "isActive") @RequestParam(value = "isActive", required = false) Boolean isActive,
                                     @Parameter(name = "page") @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -83,9 +207,31 @@ public class TemplateController {
 
     @GetMapping("/all/{code}")
     @Operation(description = "Метод для получения всех шаблонов")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Данные получены успешно",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema(implementation = Page.class))
+                    }),
+
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка сервиса",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+
+                                    schema =  @Schema( implementation = ValidationException.class))
+                    })
+    })
     public Page<TemplateDto> getAllByCode(@Parameter(name = "code") @PathVariable(value = "code") String code,
                                           @Parameter(name = "page") @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                          @Parameter(name = "size") @RequestParam(value = "size", defaultValue = "50") Integer size) {
+                                          @Parameter(name = "size") @RequestParam(value = "size", defaultValue = "50") Integer size) throws ValidationException {
         return service.getAllTemplateByCode(code, PageRequest.of(page, size));
     }
 

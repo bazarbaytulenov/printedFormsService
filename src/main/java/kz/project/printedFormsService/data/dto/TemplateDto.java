@@ -20,54 +20,52 @@ import java.util.List;
 @NoArgsConstructor
 @Schema(name = "TemplateDto", description = "Модель")
 public class TemplateDto {
+
     @NotBlank
-    @Schema(name ="code", description = "Код шаблона")
+    @Schema(name ="templateID", description = "Код шаблона", defaultValue = "123")
+    private Long templateId;
+
+    @NotBlank
+    @Schema(name ="code", description = "Код шаблона", defaultValue = "template_1")
     private String code;
     @NotBlank
-    @Schema(name = "dataName", description = "Наименование шаблона")
-    private String dataName;
-    @NotBlank
-    @Schema(name ="headerName", description = "Наименование заголовки")
-    private String headerName;
+    @Schema(name ="name", description = "Наименование шаблона",defaultValue = "Шаблон 1")
+    private String name;
     @NotBlank
     @Schema(name = "type", description = "Тип фаила")
     private String type;
     @NotBlank
-    @Schema(name ="isActive", description = "Флаг активности")
-    private Boolean isActive;
+    @Schema(name ="status", description = "Флаг активности", defaultValue = "1")
+    private Boolean status;
     @NotBlank
     @Schema(name ="version", description = "Версия активности")
     private Integer version;
-    /*@NotBlank
-    @Schema(name ="data", description = "Шаблон")
-    @JsonRawValue
-    private String data;*/
-    /*@NotBlank
-    @Schema(name ="header", description = "Шаблон заголовка")
-    @JsonRawValue
-    private String header;*/
+    private TemplateFileDataDto templateFile;
+    private TemplateFileDataDto headerFile;
+    private List<GroupIndoDto>groups;
 
 
     public static TemplateDto toDtoShort(TemplateEntity te) {
        return TemplateDto.builder()
                 .code(te.getCode())
-                .isActive(te.getIsActive())
-                .dataName(te.getNameBody())
+                .status(te.getStatus())
+                .templateFile(new TemplateFileDataDto(te.getTemplate().getId(),te.getTemplate().getName()))
+                .headerFile(new TemplateFileDataDto(te.getTempleateHeader().getId(),te.getTempleateHeader().getName()))
                 .type(te.getType().getCode())
-               .version(te.getVersion())
+                .version(te.getVersion())
+               .groups(List.of(new GroupIndoDto("1","группа-1"),new GroupIndoDto("2","группа-2")))
                 .build();
     }
 
     public static TemplateDto toDto(TemplateEntity te) {
         return TemplateDto.builder()
                 .code(te.getCode())
-                .isActive(te.getIsActive())
-                .dataName(te.getNameBody())
+                .status(te.getStatus())
+                .templateFile(new TemplateFileDataDto(te.getTemplate().getId(),te.getTemplate().getName()))
+                .headerFile(new TemplateFileDataDto(te.getTempleateHeader().getId(),te.getTempleateHeader().getName()))
                 .type(te.getType().getCode())
-                //.data(new String(te.getData()))
-                //.header(new String(te.getHeader()))
-                .headerName(te.getNameHeader())
                 .version(te.getVersion())
+                .groups(List.of(new GroupIndoDto("1","группа-1"),new GroupIndoDto("2","группа-2")))
                 .build();
     }
 
@@ -79,4 +77,27 @@ public class TemplateDto {
         }
         return new PageImpl<>(dtos, PageRequest.of(all.getNumber(),all.getSize()),all.getTotalElements());
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TemplateFileDataDto{
+        @NotBlank
+        @Schema(name ="fileId", description = "Идентификатор файла", defaultValue = "4654654646")
+        private Long fileId;
+        @NotBlank
+        @Schema(name ="fileName", description = "Название файла")
+        private String fileName;
+
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GroupIndoDto{
+        private String groupId;
+        private String name;
+    }
 }
+
+

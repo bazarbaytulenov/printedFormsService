@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/dict")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Template Controller", description = "API TemplateService")
+@Tag(name = "DTemplate Controller", description = "API TemplateService")
 public class DTemplateTypeController {
   private final DTemplateTypeService service;
 

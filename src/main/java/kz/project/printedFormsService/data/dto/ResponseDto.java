@@ -14,14 +14,11 @@ import lombok.NoArgsConstructor;
 @Schema(name = "MessageDto", description = "Ответ")
 public class ResponseDto {
     @NotBlank
-    @Schema(name = "Сообшение о успешной формировании отчета")
-    private String succesMessage;
-    @NotBlank
-    @Schema(name = "Сообщение об ошибке")
+    @Schema(name = "errorMessage")
     private String errorMessage;
     @NotBlank
-    @Schema(name = "Отчет")
-    private byte[] pdf;
+    @Schema(name = "code")
+    private int code;
 
 
 }
