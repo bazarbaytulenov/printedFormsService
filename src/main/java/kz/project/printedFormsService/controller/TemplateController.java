@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.project.printedFormsService.ValidationException;
-import kz.project.printedFormsService.data.dto.ResponseDto;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.service.TemplateService;
 import lombok.RequiredArgsConstructor;

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "MessageDto", description = "Ответ")
-public class ResponseDto {
+public class ResponseErrorDto {
     @NotBlank
     @Schema(name = "errorMessage")
     private String errorMessage;
