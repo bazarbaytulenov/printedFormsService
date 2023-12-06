@@ -17,6 +17,7 @@ public class RestErrorController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     //@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Remote service response")
     protected ResponseEntity<ResponseErrorDto> handleThereIsNoSuchUserException(ValidationException  err) {
+        err.printStackTrace();
         return new ResponseEntity<>(new ResponseErrorDto(err.getMessage(),err.getCode()),HttpStatus.BAD_REQUEST);
     }
 

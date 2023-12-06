@@ -44,7 +44,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema(implementation = Map.class))
+                                    schema = @Schema(implementation = Map.class))
                     }),
 
 
@@ -55,7 +55,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema( implementation = ValidationException.class))
+                                    schema = @Schema(implementation = ValidationException.class))
                     })
     })
 
@@ -73,7 +73,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema(implementation = TemplateDto.class))
+                                    schema = @Schema(implementation = TemplateDto.class))
                     }),
 
 
@@ -84,17 +84,17 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema( implementation = ValidationException.class))
+                                    schema = @Schema(implementation = ValidationException.class))
                     })
     })
 
     public ResponseEntity<TemplateDto> getTemplateData(@Parameter(name = "id", required = true) @PathVariable Long id) throws ValidationException {
 
         TemplateDto templateData = service.getTemplateData(id);
-            return ResponseEntity.ok(templateData);
+        return ResponseEntity.ok(templateData);
     }
 
-    @PutMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/save")
     @Operation(description = "Метод сохранения шаблона")
     @ApiResponses(value = {
             @ApiResponse(
@@ -104,7 +104,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema(implementation = TemplateDto.class))
+                                    schema = @Schema(implementation = TemplateDto.class))
                     }),
 
 
@@ -115,22 +115,24 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema( implementation = ValidationException.class))
+                                    schema = @Schema(implementation = ValidationException.class))
                     })
     })
+    public ResponseEntity<TemplateDto> seveTemplate(@Parameter(name = "data") @RequestParam("data") MultipartFile data,
+                                                    @Parameter(name = "header") @RequestParam(name = "header", required = false) MultipartFile header,
+                                                    @RequestParam TemplateDto dto
 
-    public ResponseEntity<TemplateDto> seveTemplate(@RequestParam("data") MultipartFile data,
-                                    @RequestParam(name = "header", required = false) MultipartFile header,
-                                    TemplateDto dto) throws IOException, ValidationException {
+
+    ) throws IOException, ValidationException {
         if (header != null) {
-            return ResponseEntity.ok(service.save(dto, List.of(data, header)));
+            return ResponseEntity.ok(service.save(dto, List.of(data,header)));
         } else {
             return ResponseEntity.ok(service.save(dto, List.of(data)));
 
         }
     }
 
-    @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/edit")
     @Operation(description = "Метод для сохранение изменения")
     @ApiResponses(value = {
             @ApiResponse(
@@ -140,7 +142,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema(implementation = TemplateDto.class))
+                                    schema = @Schema(implementation = TemplateDto.class))
                     }),
 
 
@@ -151,13 +153,13 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema( implementation = ValidationException.class))
+                                    schema = @Schema(implementation = ValidationException.class))
                     })
     })
 
-    public ResponseEntity<TemplateDto> editTemplate(@RequestParam("data") MultipartFile data,
-                                               @RequestParam(name = "header", required = false) MultipartFile header,
-                                               TemplateDto dto) throws IOException, ValidationException {
+    public ResponseEntity<TemplateDto> editTemplate(@Parameter(name = "data") @RequestParam("data") MultipartFile data,
+                                                    @Parameter(name = "header") @RequestParam(name = "header", required = false) MultipartFile header,
+                                                    @RequestParam TemplateDto dto) throws IOException, ValidationException {
         if (header != null) {
             return ResponseEntity.ok(service.edit(dto, List.of(data, header)));
         } else {
@@ -182,7 +184,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema(implementation = Page.class))
+                                    schema = @Schema(implementation = Page.class))
                     }),
 
 
@@ -193,7 +195,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema( implementation = ValidationException.class))
+                                    schema = @Schema(implementation = ValidationException.class))
                     })
     })
 
@@ -204,7 +206,7 @@ public class TemplateController {
         return service.getAllTemplate(isActive, PageRequest.of(page, size));
     }
 
-    @GetMapping("/all/{code}")
+    @GetMapping("/allVersion/{code}")
     @Operation(description = "Метод для получения всех шаблонов")
     @ApiResponses(value = {
             @ApiResponse(
@@ -214,7 +216,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema(implementation = Page.class))
+                                    schema = @Schema(implementation = Page.class))
                     }),
 
 
@@ -225,7 +227,7 @@ public class TemplateController {
                             @Content(
                                     mediaType = "application/json",
 
-                                    schema =  @Schema( implementation = ValidationException.class))
+                                    schema = @Schema(implementation = ValidationException.class))
                     })
     })
     public Page<TemplateDto> getAllByCode(@Parameter(name = "code") @PathVariable(value = "code") String code,
