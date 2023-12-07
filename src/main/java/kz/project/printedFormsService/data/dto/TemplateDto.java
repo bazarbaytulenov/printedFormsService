@@ -50,7 +50,7 @@ public class TemplateDto {
                 .code(te.getCode())
                 .status(te.getStatus())
                 .templateFile(new TemplateFileDataDto(te.getTemplate().getId(),te.getTemplate().getName()))
-                .headerFile(new TemplateFileDataDto(te.getTempleateHeader().getId(),te.getTempleateHeader().getName()))
+                .headerFile(te.getTempleateHeader()!=null?new TemplateFileDataDto(te.getTempleateHeader().getId(),te.getTempleateHeader().getName()):null)
                 .type(te.getType().getCode())
                 .version(te.getVersion())
                .groups(List.of(new GroupIndoDto("1","группа-1"),new GroupIndoDto("2","группа-2")))
