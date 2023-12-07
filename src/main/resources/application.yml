@@ -20,7 +20,7 @@ spring:
   jpa:
     hibernate:
       jdbc.time_zone: Asia/Almaty
-      ddl-auto: update
+      ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:template_db}?currentSchema=template_schema
