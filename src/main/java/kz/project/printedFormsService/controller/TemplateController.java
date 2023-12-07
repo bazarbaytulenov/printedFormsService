@@ -34,7 +34,7 @@ public class TemplateController {
     private final TemplateService service;
 
     @Hidden
-    @GetMapping("/{code}")
+    @GetMapping("/{id}")
     @Operation(description = "Метод для получения шаблона по идентификатору")
     @ApiResponses(value = {
             @ApiResponse(
@@ -59,8 +59,8 @@ public class TemplateController {
                     })
     })
 
-    public Map<String, byte[]> getTemplate(@Parameter(name = "code", required = true) @PathVariable String code) {
-        return service.getTemplate(code);
+    public Map<String, byte[]> getTemplate(@Parameter(name = "id", required = true) @PathVariable Long id) throws ValidationException {
+        return service.getTemplate(id);
     }
 
     @GetMapping("get/{id}")

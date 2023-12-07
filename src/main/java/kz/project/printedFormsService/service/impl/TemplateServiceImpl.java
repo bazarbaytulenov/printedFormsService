@@ -29,12 +29,12 @@ public class TemplateServiceImpl implements TemplateService {
     private final TemplateFileInfoRepository fileInfoRepository;
 
     @Override
-    public Map<String, byte[]> getTemplate(String code) {
+    public Map<String, byte[]> getTemplate(Long id) throws ValidationException {
         Map<String, byte[]> params = new HashMap<>();
-        TemplateEntity templateEntity = repository.findByCode(code).orElse(null);
-        if (templateEntity == null) return null;
+        TemplateEntity templateEntity = repository.findById(id).orElse(null);
+        if (templateEntity == null) throw new ValidationException("по данному параметру отсутствуют данные: "+id, 13);
         params.put("body", templateEntity.getTemplate().getData());
-        params.put("header", templateEntity.getTempleateHeader().getData());
+        params.put("header", templateEntity.getTempleateHeader()!=null?templateEntity.getTempleateHeader().getData():null);
         return params;
     }
 
