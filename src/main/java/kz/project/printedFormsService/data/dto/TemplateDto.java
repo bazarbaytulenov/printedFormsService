@@ -75,7 +75,7 @@ public class TemplateDto {
         if(all.getContent()==null)return null;
         List<TemplateDto> dtos = new ArrayList<>();
         for (TemplateEntity te:all.getContent()) {
-            dtos.add(TemplateDto.toDtoShort(te));
+            dtos.add(TemplateDto.toDto(te));
         }
         return new PageImpl<>(dtos, PageRequest.of(all.getNumber(),all.getSize()),all.getTotalElements());
     }
