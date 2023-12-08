@@ -1,12 +1,14 @@
 package kz.project.printedFormsService.service.impl;
 
-import kz.project.printedFormsService.ValidationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kz.project.printedFormsService.data.dto.TemplateDataForReportDto;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.data.entity.TemplateEntity;
 import kz.project.printedFormsService.data.entity.TemplateFileInfoEntity;
 import kz.project.printedFormsService.data.repository.DTemplateTypeRepository;
 import kz.project.printedFormsService.data.repository.TemplateFileInfoRepository;
 import kz.project.printedFormsService.data.repository.TemplateRepository;
+import kz.project.printedFormsService.exception.ValidationException;
 import kz.project.printedFormsService.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +32,17 @@ public class TemplateServiceImpl implements TemplateService {
     private final TemplateFileInfoRepository fileInfoRepository;
 
     @Override
-    public Map<String, byte[]> getTemplate(Long id) throws ValidationException {
+    public Map<String, byte[]> getTemplate(Long id) throws ValidationException, JsonProcessingException {
         Map<String, byte[]> params = new HashMap<>();
         TemplateEntity templateEntity = repository.findById(id).orElse(null);
-        if (templateEntity == null) throw new ValidationException("по данному параметру отсутствуют данные: "+id, 13);
-        params.put("body", templateEntity.getTemplate().getData());
-        params.put("header", templateEntity.getTempleateHeader()!=null?templateEntity.getTempleateHeader().getData():null);
+        if (templateEntity == null) throw new ValidationException("по данному параметру отсутствуют данные: " + id, 13);
+        TemplateDataForReportDto templ= new TemplateDataForReportDto(templateEntity.getType().getCode(), templateEntity.getTemplate().getData(), templateEntity.getTempleateHeader() != null ? templateEntity.getTempleateHeader().getData() : null);
+        params.put("type",templ.getType().getBytes(StandardCharsets.UTF_8));
+        params.put("body", templ.getBody());
+        params.put("header",templ.getHeader());
+
         return params;
+
     }
 
     @Override
@@ -95,7 +102,7 @@ public class TemplateServiceImpl implements TemplateService {
         templateEntity.setTemplate(createTempaleFiles(dto, files.get(0).getResource().getContentAsByteArray(), false));
         templateEntity.setCode(dto.getCode());
         templateEntity.setStatus(dto.getStatus());
-        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow(()->new ValidationException("Не найден справочное значение по коду: "+dto.getType(),13)));
+        templateEntity.setType(dTemplateTypeRepository.findByCode(dto.getType()).orElseThrow(() -> new ValidationException("Не найден справочное значение по коду: " + dto.getType(), 13)));
         templateEntity.setVersion(dto.getVersion() + 1);
         if (files.size() == 2 && files.get(1) != null)
             templateEntity.setTempleateHeader(createTempaleFiles(dto, files.get(1).getResource().getContentAsByteArray(), true));
@@ -105,8 +112,8 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     private TemplateFileInfoEntity createTempaleFiles(TemplateDto dto, byte[] files, boolean isHeader) throws IOException {
-         if(files.length==0)
-             return null;
+        if (files.length == 0)
+            return null;
         return fileInfoRepository.save(TemplateFileInfoEntity.builder()
                 .isHeader(isHeader)
                 .name(dto.getTemplateFile().getFileName())

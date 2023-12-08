@@ -1,4 +1,4 @@
-package kz.project.printedFormsService;
+package kz.project.printedFormsService.exception;
 
 import lombok.Data;
 

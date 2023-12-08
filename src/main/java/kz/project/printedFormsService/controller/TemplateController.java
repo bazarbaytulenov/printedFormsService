@@ -1,5 +1,6 @@
 package kz.project.printedFormsService.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,14 +9,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kz.project.printedFormsService.ValidationException;
+import kz.project.printedFormsService.exception.ValidationException;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import kz.project.printedFormsService.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,7 +59,7 @@ public class TemplateController {
                     })
     })
 
-    public Map<String, byte[]> getTemplate(@Parameter(name = "id", required = true) @PathVariable Long id) throws ValidationException {
+    public Map<String, byte[]>  getTemplate(@Parameter(name = "id", required = true) @PathVariable Long id) throws ValidationException, JsonProcessingException {
         return service.getTemplate(id);
     }
 

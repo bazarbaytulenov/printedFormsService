@@ -1,6 +1,7 @@
 package kz.project.printedFormsService.service;
 
-import kz.project.printedFormsService.ValidationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kz.project.printedFormsService.exception.ValidationException;
 import kz.project.printedFormsService.data.dto.TemplateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TemplateService {
-    Map<String, byte[]> getTemplate(Long id) throws ValidationException;
+    Map<String, byte[]> getTemplate(Long id) throws ValidationException, JsonProcessingException;
 
     TemplateDto save(TemplateDto dto, List<MultipartFile> files) throws IOException, ValidationException;
 
